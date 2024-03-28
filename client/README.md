@@ -34,3 +34,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+
+## Tech Stack
+- Next.js 14
+- typescript 
+- Tailwind CSS
+- ESLint
+- graphql-request
+- [codegen](https://the-guild.dev/graphql/codegen/docs/getting-started/installation) : It generates typescript types from graphql queries
+- concurrently: It runs multiple commands concurrently
+- react-hot-toast: It is a toast library
+- react-query: It is a library for managing, caching and syncing server state in React applications
