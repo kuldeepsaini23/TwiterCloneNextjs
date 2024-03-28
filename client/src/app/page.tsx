@@ -1,9 +1,18 @@
 "use client";
 import FeedCard from "@/components/core/Home/FeedCard";
 import Login from "@/components/core/Home/Login";
+import { Tweet } from "@/gql/graphql";
+import { useCreateTweet, useGetAllTweets } from "@/hooks/tweet";
 import { useCurrentUser } from "@/hooks/user";
 import Image from "next/image";
-import { BiHash, BiHomeCircle, BiMoney, BiUser } from "react-icons/bi";
+import { useCallback, useState } from "react";
+import {
+  BiHash,
+  BiHomeCircle,
+  BiImageAlt,
+  BiMoney,
+  BiUser,
+} from "react-icons/bi";
 import { BsBell, BsBookmark, BsEnvelope, BsTwitter } from "react-icons/bs";
 import { SlOptions } from "react-icons/sl";
 
@@ -48,7 +57,24 @@ const SideBarMenuItems: TwitterSidebarButton[] = [
 ];
 
 export default function Home() {
-  const {user} = useCurrentUser();
+  const { user } = useCurrentUser();
+  const {tweets = []} = useGetAllTweets();
+  const {mutate} = useCreateTweet();
+  const [content, setContent] = useState("");
+
+  const handleSelectImage = useCallback(() => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+  }, []);
+
+  const handleCreateTweet = useCallback(() => {
+    mutate({
+      content,
+    })
+  }, [content,mutate]);
+
   return (
     <main className="">
       <div className="grid grid-cols-12 h-screen w-screen px-56">
@@ -76,36 +102,67 @@ export default function Home() {
             </div>
           </div>
           {/* Profile */}
-          {
-            user && (
-              <div className="absolute bottom-5 flex items-center gap-2 px-3 py-2 bg-slate-800 rounded-full">
-            {user?.profileImageURL && (
-              <Image
-                src={user.profileImageURL}
-                alt="user-image"
-                width={50}
-                height={50}
-                className="rounded-full"
+          {user && (
+            <div className="absolute bottom-5 flex items-center gap-2 px-3 py-2 bg-slate-800 rounded-full">
+              {user?.profileImageURL && (
+                <Image
+                  src={user.profileImageURL}
+                  alt="user-image"
+                  width={50}
+                  height={50}
+                  className="rounded-full"
                 />
-            ) }
-
-           <div>
-           <h1 className="text-xl">{`${user.firstName} ${user.lastName}`}</h1>
-           </div>
-          </div>
-            )
-          }
+              )}
+              <div>
+                <h1 className="text-xl">{`${user.firstName} ${user.lastName}`}</h1>
+              </div>
+            </div>
+          )}
         </div>
         <div className="col-span-6 border-r-[1px] border-l-[1px] border-gray-700 h-screen overflow-y-scroll">
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
+          {/* Write your tweet */}
+          <div>
+            <div className="border border-r-0 border-l-0 border-b-0 border-gray-600 p-4 hover:bg-slate-900">
+              <div className="grid grid-cols-12 gap-2">
+                <div className="col-span-1">
+                  {user?.profileImageURL && (
+                    <Image
+                      src={user.profileImageURL}
+                      alt="user-image"
+                      width={50}
+                      height={50}
+                      className="rounded-full"
+                    />
+                  )}
+                </div>
+                {/* TextArea */}
+                <div className="col-span-11">
+                  <textarea
+                    className="w-full bg-transparent text-xl p-3 pt-0 border-b border-slate-700 focus:outline-none"
+                    rows={3}
+                    placeholder="What's happening?"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                  ></textarea>
+                  <div className="mt-2 flex justify-between items-center">
+                    <BiImageAlt
+                      onClick={handleSelectImage}
+                      className="text-xl cursor-pointer"
+                    />
+                    <button className="bg-[#1d9bf0] rounded-full text-sm py-2 px-4" onClick={handleCreateTweet}>
+                      Tweet
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         {tweets?.map((tweet) => (
+            tweet ? <FeedCard key={tweet.id} tweet={tweet as Tweet} /> : null
+          ))}
+         
         </div>
-        <div className="col-span-3">
-          {!user && <Login />}
-        </div>
+        <div className="col-span-3">{!user && <Login />}</div>
       </div>
     </main>
   );
