@@ -15,6 +15,12 @@ const nextConfig = {
         hostname: 'lh3.googleusercontent.com',
         port: '',
         pathname: '/a/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'kuldeep-twitter-app.s3.ap-south-1.amazonaws.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

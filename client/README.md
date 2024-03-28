@@ -47,3 +47,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - concurrently: It runs multiple commands concurrently
 - react-hot-toast: It is a toast library
 - react-query: It is a library for managing, caching and syncing server state in React applications
+- axios

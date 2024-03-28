@@ -21,7 +21,6 @@ const Login = (props: Props) => {
       );
 
       toast.success('Verified Successfully');
-      console.log(verifyGoogleToken);
 
       if(verifyGoogleToken){
         window.localStorage.setItem('__twitter_token', verifyGoogleToken);
