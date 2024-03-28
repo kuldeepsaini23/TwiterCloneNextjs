@@ -16,7 +16,7 @@ interface TwitterSidebarButton {
 
 const TwitterLayout = ({ children }: { children: React.ReactNode }) => {
   const { user } = useCurrentUser();
-  console.log(user);
+  // console.log(user);
   const SideBarMenuItems: TwitterSidebarButton[] = useMemo(
     () => [
       {

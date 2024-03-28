@@ -32,7 +32,7 @@ const FollowBtn = ({ userId,userInfo }: Props) => {
     await graphqlClient.request(followUserMutation, {
       to: userId,
     });
-    queryClient.invalidateQueries(["currentUser"]);
+    await queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === "current-User" });
     toast.success("Followed",{id:'follow'});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo,queryClient]);
@@ -42,7 +42,7 @@ const FollowBtn = ({ userId,userInfo }: Props) => {
     await graphqlClient.request(unfollowUserMutation, {
       to: userId,
     });
-    queryClient.invalidateQueries(["currentUser"]);
+    await queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === "current-User" });
     toast.success("Unfollowed",{id:'unfollow'});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo,queryClient]);

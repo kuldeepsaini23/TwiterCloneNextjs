@@ -29,7 +29,7 @@ const TweetMainComponent = (props: Props) => {
       const { getSignedURLForTweet } = await graphqlClient.request(
         getSignedURLForTweetQuery,
         {
-          imageType: file.type,
+          imageType: file.type.split("/")[1],
           imageName: file.name,
         }
       );
@@ -43,7 +43,7 @@ const TweetMainComponent = (props: Props) => {
         });
         toast.success("Uploaded", { id: "2" });
         const url = new URL(getSignedURLForTweet);
-        const myFilePath = `${url.origin}/${url.pathname}`;
+        const myFilePath = `${url.origin}${url.pathname}`;
         setImageURL(myFilePath);
       }
     };
@@ -65,7 +65,10 @@ const TweetMainComponent = (props: Props) => {
       imageURL,
     });
     setContent("");
+    setImageURL(null);
   }, [content, imageURL, mutate]);
+
+  // console.log(imageURL);
   return (
     <React.Fragment>
       <div>

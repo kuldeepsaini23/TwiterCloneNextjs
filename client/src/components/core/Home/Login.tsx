@@ -13,20 +13,7 @@ const Login = (props: Props) => {
 
   const handleLoginWithGoogle = useCallback(
     async (cred: CredentialResponse) => {
-      const googleToken = cred.credential;
-      if (!googleToken) return toast.error(`Google token not found`);
-      const { verifyGoogleToken } = await graphqlClient.request(
-        verifyUserGoogleTokenQuery,
-        { token: googleToken }
-      );
-
-      toast.success('Verified Successfully');
-
-      if(verifyGoogleToken){
-        window.localStorage.setItem('__twitter_token', verifyGoogleToken);
-      }
-
-      await queryClient.invalidateQueries(["currentUser"]);
+      await queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === "current-User" });
     },
     [queryClient]
   );

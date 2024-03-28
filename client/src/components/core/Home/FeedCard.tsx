@@ -10,7 +10,6 @@ type Props = {
 };
 
 const FeedCard = ({ tweet }: Props) => {
-  // console.log(tweet);
   return (
     <div className="border border-r-0 border-l-0 border-b-0 border-gray-600 p-4 hover:bg-slate-900">
       <div className="grid grid-cols-12 gap-2">
@@ -31,14 +30,13 @@ const FeedCard = ({ tweet }: Props) => {
           <p>{tweet?.content}</p>
 
           {tweet?.imageURL && (
-                <Image
-                  src={tweet?.imageURL}
-                  alt="tweet-image"
-                  width={300}
-                  height={300}
-                  className="rounded-full"
-                />
-              )}
+            <Image
+              src={tweet?.imageURL}
+              alt="tweet-image"
+              width={300}
+              height={300}
+            />
+          )}
 
           <div className="flex justify-between mt-5 items-center text-xl p-2 w-[90%] ">
             <div>

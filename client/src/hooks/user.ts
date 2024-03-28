@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 
 export const useCurrentUser = () =>{
   const query = useQuery({
-    queryKey:['currentUser'],
+    queryKey:['current-User'],
     queryFn:() => graphqlClient.request(getCurrentUserQuery)
   })
 

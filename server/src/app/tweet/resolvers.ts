@@ -11,7 +11,6 @@ import TweetService, { CreateTweetPayload } from "../services/tweet";
 // } from "@aws-sdk/client-s3";
 // import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-
 const mutations = {
   createTweet: async (
     parent: any,
@@ -22,7 +21,7 @@ const mutations = {
     const tweet = await TweetService.createTweet({
       ...payload,
       userId: ctx.user.id,
-    })
+    });
 
     return tweet;
   },
@@ -46,18 +45,17 @@ const s3Client = new S3Client({
 });
 
 const queries = {
-  getAllTweets: () =>
-    TweetService.getAllTweets(),
+  getAllTweets: () => TweetService.getAllTweets(),
   getSignedURLForTweet: async (
     parent: any,
     { imageType, imageName }: { imageType: string; imageName: string },
-    ctx: GraphqlContext 
+    ctx: GraphqlContext
   ) => {
     if (!ctx.user || !ctx.user.id) throw new Error("Unauthenticated");
     const allowedImageTypes = ["jpeg", "jpg", "png", "webp"];
-    if (!allowedImageTypes.includes(imageType))
+    if (!allowedImageTypes.includes(imageType)) {
       throw new Error("Invalid image type");
-
+    }
     const putObjectCommand = new PutObjectCommand({
       Bucket: process.env.S3_BUCKET_NAME as string,
       Key: `/uploads/${
